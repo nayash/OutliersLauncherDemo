@@ -20,4 +20,38 @@
 <!--        <item name="android:windowFullscreen">true</item>-->
 <!--        <item name="android:windowContentOverlay">@null</item>-->
     </style>
+
+    <style name="TextHeading2" parent="TextAppearance.MaterialComponents.Headline2">
+        <item name="android:textColor">@color/colorHeading</item>
+        <item name="android:textSize">@dimen/text_heading2</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+    <style name="TextHeading3" parent="TextHeading2">
+        <item name="android:textSize">@dimen/text_heading3</item>
+    </style>
+    <style name="TextHeading1" parent="TextHeading2">
+        <item name="android:textSize">@dimen/text_heading1</item>
+    </style>
+
+    <style name="TextBody" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/colorBody</item>
+        <item name="android:textSize">@dimen/text_body</item>
+    </style>
+
+    <style name="AppTitle" parent="TextBody">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/text_heading3</item>
+        <item name="fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextBodyLargeWhite" parent="TextBody">
+        <item name="android:textSize">@dimen/text_heading2</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextBodySmall" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/colorBodyLight</item>
+        <item name="android:textSize">@dimen/text_body_small</item>
+    </style>
+
 </resources>

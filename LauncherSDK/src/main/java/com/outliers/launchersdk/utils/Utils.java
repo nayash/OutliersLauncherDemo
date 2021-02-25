@@ -9,12 +9,16 @@ public class Utils {
 
     public static String getApplicationName(Context context, ApplicationInfo appInfo) {
         int stringId = appInfo.labelRes;
-        String name = "";
+        String name;
         if(stringId == 0){
             name = appInfo.nonLocalizedLabel != null? appInfo.nonLocalizedLabel.toString():"";
         }else{
             name = context.getPackageManager().getApplicationLabel(appInfo).toString();
         }
         return name;
+    }
+
+    public static boolean isValidString(String text){
+        return text != null && !text.trim().isEmpty();
     }
 }

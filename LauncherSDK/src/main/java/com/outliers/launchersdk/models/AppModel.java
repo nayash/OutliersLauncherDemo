@@ -2,9 +2,11 @@ package com.outliers.launchersdk.models;
 
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -15,8 +17,10 @@ import java.util.List;
 
 public class AppModel implements Parcelable {
 
-    String appName, packageName, mainActivityName, versionName;
-    int appIconId, versionCode;
+    String appName = "", packageName = "", mainActivityName = "", versionName = "";
+    int appIconId = 0, versionCode = 0;
+    Drawable appIcon;
+    Intent launchIntent;
 
     public AppModel() {
     }
@@ -105,9 +109,21 @@ public class AppModel implements Parcelable {
         this.versionCode = versionCode;
     }
 
+    public void setAppIcon(Drawable drawable){
+        this.appIcon = drawable;
+    }
+
+    public Intent getLaunchIntent(){
+        return launchIntent;
+    }
+
+    public Drawable getAppIcon(){
+        return appIcon;
+    }
+
     public static ArrayList<AppModel> getAppModelsFromAppInfoList(List<ApplicationInfo> applicationInfos, Context context) {
         ArrayList<AppModel> appModels = new ArrayList<>();
-        for(ApplicationInfo applicationInfo: applicationInfos){
+        for (ApplicationInfo applicationInfo : applicationInfos) {
             AppModel appModel = new AppModel();
             appModel.setAppIconId(applicationInfo.icon);
             appModel.setAppName(Utils.getApplicationName(context, applicationInfo));
@@ -116,7 +132,7 @@ public class AppModel implements Parcelable {
                 ComponentName componentName = context.getPackageManager().
                         getLaunchIntentForPackage(applicationInfo.packageName).getComponent();
                 appModel.setMainActivityName(componentName.getClassName());
-            }catch (NullPointerException ex){
+            } catch (NullPointerException ex) {
 
             }
 
@@ -125,9 +141,24 @@ public class AppModel implements Parcelable {
                         appModel.getPackageName(), 0);
                 appModel.setVersionCode(packageInfo.versionCode);
                 appModel.setVersionName(packageInfo.versionName);
-            }catch (Exception ex) {
+            } catch (Exception ex) {
 
             }
+            appModels.add(appModel);
+        }
+        return appModels;
+    }
+
+    public static ArrayList<AppModel> getAppModelsFromPackageInfoList(List<PackageInfo> applicationInfos, Context context) {
+        ArrayList<AppModel> appModels = new ArrayList<>();
+        for (PackageInfo p : applicationInfos) {
+            AppModel appModel = new AppModel();
+            appModel.appName = p.applicationInfo.loadLabel(context.getPackageManager()).toString();
+            appModel.packageName = p.packageName;
+            appModel.versionName = p.versionName;
+            appModel.versionCode = p.versionCode;
+            appModel.appIcon = p.applicationInfo.loadIcon(context.getPackageManager());
+            appModel.launchIntent = context.getPackageManager().getLaunchIntentForPackage(p.packageName);
             appModels.add(appModel);
         }
         return appModels;
